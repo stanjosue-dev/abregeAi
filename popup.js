@@ -45,7 +45,7 @@ async function abregeText(text){
       body: JSON.stringify({ text }),
     };
 
-  fetch('http://localhost:3000/api/abrege', param)
+  fetch('https://abregeai.onrender.com/api/abrege', param)
   .then(response => response.json())
   .then(data => p.innerHTML = `Voici votre mail Abrégé : <br> ${data.candidates[0].content.parts[0].text}`)
   .catch(err => p.innerHTML = `Quelque chose s'est mal passé : ${err}`)

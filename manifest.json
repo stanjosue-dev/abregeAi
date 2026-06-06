@@ -11,7 +11,7 @@
   "128":"brain.png"
 },
 "host_permissions": [
-    "http://localhost:3000/*" 
+    "https://abregeai.onrender.com/*" 
   ],
 "content_scripts": [
     {
