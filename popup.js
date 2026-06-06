@@ -6,12 +6,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
         func : getText
       }, (results)=> {
 
-        // CHROME RUNTIME ERROR HANDLING.
-  if (chrome.runtime.lastError) {
-    document.getElementById('contentAbreged').textContent =
-      'Accès non autorisé à cette page.';
-    return;
-  } // ..
+      // CHROME RUNTIME ERROR HANDLING.
+      if (chrome.runtime.lastError) {
+        document.getElementById('contentAbreged').textContent =
+        'Accès non autorisé à cette page.';
+        return;
+      } // ..
 
         if (!results?.[0] || results[0].result === null){
           document.getElementById('contentAbreged').innerHTML = 'Aucun mail à resumer ici.'
@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
           const textTrouve = results[0].result;
           abregeText(textTrouve)
         }
-
       })
     })
   })
@@ -30,7 +29,7 @@ function getText(){
   // Selector isnt fix, it may change sometimes & will be update here.
   const actualSelector = ".a3s.aiL";
   let element = document.querySelector(actualSelector);
-  return element ? element.innerHTML : null ;
+  return element ? element.innerText : null ;
 };
 
 

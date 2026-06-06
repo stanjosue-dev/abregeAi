@@ -4,27 +4,27 @@ require('dotenv').config();
 const app = express();
 
 const allowedOrigins = [
-    'https://stanjosue-dev.github.io'
+    'chrome-extension://gajblfjpihgdlmodooglmbclcdieenof'
 ];
 
-const corsOptions = {
-  origin: function (origin, callback) {
+app.use(cors({
+    origin: allowedOrigins,
+    optionsSuccessStatus: 200,
+}));
 
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      return callback(null, true);
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+    if (origin && !allowedOrigins.includes(origin)) {
+        return res.status(403).json({ error: "Accès interdit : Origine non autorisée." });
     }
-
-    if (origin && origin.startsWith('chrome-extension://')) {
-      return callback(null, true);
+    if (!origin) {
+        return res.status(403).json({ error: "Accès interdit : Les requêtes directes ne sont pas autorisées." });
     }
+    next();
+});
 
-    return callback(new Error('Not allowed by CORS'));
-  }
-};
 
-app.use(cors(corsOptions));
 app.use(express.json());
-
 
 app.post('/api/abrege', async (req, res) => {
     const text = req.body.text ;
@@ -33,22 +33,15 @@ app.post('/api/abrege', async (req, res) => {
     };
 
     const geminiBody = {
-    contents: [{
-        parts: [
-          {
-            text: `Résume ce mail en quelques phrases claires et concises en listant uniquement les point importants si nécéssaire. Donne directement la réponse et en Français. le mail: <<\n\n${text} >>`,
-          },
-        ],
-      },
-    ],
+    contents: [{ parts: [{
+            text: `Résume ce mail en un bloc claires et concis, liste les point importants si nécéssaire. Donne directement le contenu du mail résumé et en Français. le mail: <<\n\n${text} >>`,
+          }],
+      }],
   };
 
-    fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent`,{
+    fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.API_KEY}`,{
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-goog-api-key': process.env.API_KEY,
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(geminiBody),
     })
     .then(resObj => resObj.json())
@@ -57,7 +50,7 @@ app.post('/api/abrege', async (req, res) => {
     })
     .catch(err => res.status(500).json({ error: err.message }));
           
-})
+});
 
 
 const PORT = process.env.PORT || 3000 ;

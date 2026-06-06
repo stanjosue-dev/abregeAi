@@ -7,6 +7,9 @@
   "scripting",
   "activeTab"
 ],
+"icons":{
+  "128":"brain.png"
+},
 "host_permissions": [
     "http://localhost:3000/*" 
   ],
@@ -17,6 +20,7 @@
     }
   ],
 "action":{
-  "default_popup": "popup.html"
+  "default_popup": "popup.html",
+  "default-icon":"brain.png"
 }
 }
