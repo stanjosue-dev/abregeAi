@@ -48,7 +48,7 @@ Le projet repose sur deux composants :
 
 ## 🎬 Démonstration
 
-![](preview.mp4)
+![](demo.gif)
 
 ---
 
