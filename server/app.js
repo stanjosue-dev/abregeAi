@@ -34,7 +34,17 @@ app.post('/api/abrege', async (req, res) => {
 
     const geminiBody = {
     contents: [{ parts: [{
-            text: `Résume ce mail en un bloc claires et concis, liste les point importants si nécéssaire. Donne directement le contenu du mail résumé et en Français. le mail: <<\n\n${text} >>`,
+            text: `Agis comme un assistant de messagerie ultra-rapide. Résume le mail ci-dessous de manière brève et percutante.
+
+Règles strictes :
+1. Va directement à l'essentiel.
+2. Structure la réponse uniquement avec des puces (bullet points).
+3. Ne fais aucune introduction (pas de "Voici le résumé...").
+4. Ne fais aucune conclusion.
+5. En francais toujours.
+
+Voici le mail à résumer :
+${text}`,
           }],
       }],
   };
